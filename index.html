@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vellum | Automated Investor Updates from Accounting Data</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: #FAF6F1;
+      color: #3D2B1F;
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 {
+      font-family: 'DM Serif Display', serif;
+      color: #C4654A;
+      font-weight: normal;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.25rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #7D8B69;
+    }
+
+    /* Container & layout */
+    .container {
+      width: min(90vw, 900px);
+      margin: auto;
+      padding: 1rem 0 4rem;
+      flex-grow: 1;
+    }
+
+    /* Rounded soft blobs background shapes */
+    .blob {
+      position: absolute;
+      border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%;
+      filter: blur(150px);
+      opacity: 0.2;
+      z-index: -1;
+    }
+
+    .blob-1 {
+      width: 360px;
+      height: 360px;
+      background: #C4654A;
+      top: -120px;
+      left: -100px;
+    }
+
+    .blob-2 {
+      width: 280px;
+      height: 280px;
+      background: #7D8B69;
+      top: 60vh;
+      right: -140px;
+    }
+
+    /* Hero Section */
+    header {
+      padding-top: 4.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    header p {
+      font-size: 1.25rem;
+      color: #7D8B69;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+    }
+
+    /* Call to Action Button */
+    .btn-primary {
+      background-color: #C4654A;
+      color: #FAF6F1;
+      border: none;
+      padding: 0.85rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 24px;
+      cursor: pointer;
+      box-shadow: 0 12px 32px rgba(196, 101, 74, 0.2);
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #A3533A;
+    }
+
+    /* How It Works Section */
+    section#how-it-works {
+      background-color: #fff;
+      border-radius: 24px;
+      padding: 2rem 2.5rem;
+      box-shadow: 0 12px 32px rgba(196, 101, 74, 0.08);
+      margin-bottom: 3rem;
+    }
+
+    /* Steps layout */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background-color: #C4654A;
+      color: #FAF6F1;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      margin-top: 4px;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.3rem;
+      color: #C4654A;
+    }
+
+    /* Form Section */
+    form {
+      background-color: #fff;
+      padding: 2rem 2.5rem;
+      border-radius: 24px;
+      box-shadow: 0 12px 32px rgba(196, 101, 74, 0.08);
+      max-width: 480px;
+      margin: 0 auto 2rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #7D8B69;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 12px;
+      border: 1.5px solid #E6E0D8;
+      font-size: 1rem;
+      font-family: 'Nunito', sans-serif;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s ease;
+    }
+
+    input[type="text"]:focus, input[type="email"]:focus {
+      border-color: #C4654A;
+      outline: none;
+    }
+
+    .submit-msg {
+      font-family: 'DM Serif Display', serif;
+      color: #7D8B69;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.875rem;
+      color: #7D8B69;
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (min-width: 640px) {
+      .steps {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .step {
+        flex-direction: column;
+        align-items: center;
+        max-width: 30%;
+      }
+      .step-number {
+        margin-top: 0;
+        margin-bottom: 1rem;
+      }
+      .step-title {
+        text-align: center;
+      }
+      .step-content {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <header class="container">
+    <h1>Vellum</h1>
+    <p>Automated investor update emails generated directly from your accounting data — no writing needed.</p>
+    <a href="#waitlist" class="btn-primary">Join the Waitlist</a>
+  </header>
+
+  <main class="container">
+    <section id="how-it-works">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3 class="step-title">Connect Your Accounting Data</h3>
+            <p>Sync QuickBooks, Xero, NetSuite, or Sage to pull your financials automatically.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3 class="step-title">AI Drafts Your Narrative</h3>
+            <p>Our AI analyzes financial variances and your Slack/Linear context to generate clear, concise update emails.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3 class="step-title">Push Updates to Your Inbox</h3>
+            <p>Receive completed investor updates as soon as your books are closed, ready to review and send.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="waitlist">
+      <h2>Join the Waitlist</h2>
+      <form id="waitlist-form" novalidate>
+        <label for="name">Name (optional)</label>
+        <input type="text" id="name" name="name" placeholder="Your name" />
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+        <button type="submit" class="btn-primary">Get Early Access</button>
+        <p role="alert" class="submit-msg" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2026 Vellum. All rights reserved.
+  </footer>
+
+  <script>
+    const form = document.getElementById('waitlist-form');
+    const messageEl = form.querySelector('.submit-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      messageEl.textContent = '';
+
+      const formData = new FormData(form);
+      const name = formData.get('name').trim();
+      const email = formData.get('email').trim();
+
+      if (!email || !email.includes('@')) {
+        messageEl.textContent = 'Please enter a valid email address.';
+        return;
+      }
+
+      const payload = { data: { email } };
+      if (name) payload.data.name = name;
+
+      try {
+        const response = await fetch(
+          'https://app.baget.ai/api/public/databases/4def4c1f-097d-49b8-a603-2db0b5e6bea9/rows',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          }
+        );
+
+        if (response.ok) {
+          messageEl.textContent = 'Thanks — we\'ll be in touch soon!';
+          form.reset();
+        } else {
+          throw new Error('Failed to submit');
+        }
+      } catch {
+        messageEl.textContent = 'Submission failed. Please try again.';
+      }
+    });
+  </script>
+</body>
+</html>
